@@ -1,0 +1,259 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+<p th:text="'Hello, '+${name}+'!'" ></p>
+
+<style>
+    .bright {
+        color: #F75E25;
+    }
+
+    .answer {
+        font-size: 300%;
+    }
+
+    .light {
+        color: black;
+    }
+
+    .allintroduction {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    /*подписи к местам ввода параметров и тд*/
+    .entry {
+    }
+
+    /*сообщение об ошибки*/
+    .error {
+        color: #F75E25;
+    }
+
+    /*картинка + ввод параметров и кнопка проверки*/
+    .step1 {
+        float: left;
+        margin-right: 35px; /*расстояния между блоками*/
+        margin-top: 1px;
+    }
+
+    /*вид кнопок выбора параметров*/
+    .checkbox,
+    .radio {
+        display: none;
+    }
+
+    .checkbox-custom,
+    .radio-custom {
+        width: 15px;
+        height: 15px;
+        border: 2px solid black;
+        border-radius: 3px;
+        position: relative;
+    }
+
+    .checkbox-custom,
+    .radio-custom,
+    .label {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .checkbox:checked + .checkbox-custom::before,
+    .radio:checked + .radio-custom::before {
+        content: "";
+        display: block;
+        position: absolute;
+        margin: 15%;
+        top: 2px;
+        right: 2px;
+        bottom: 2px;
+        left: 2px;
+        background: black;
+        border-radius: 2px;
+    }
+
+    .radio-custom,
+    .radio:checked + .radio-custom::before {
+        border-radius: 50%;
+    }
+
+    /*оформление шапки*/
+    div h1 {
+        width: 100%;
+        height: 60px;
+        font-size: 80%;
+        color: black;
+        text-align: right;
+    }
+
+    div h3 {
+        color: #FDF4E3;
+        font-size: 200%;
+    }
+
+    /*задний фон*/
+    body {
+        background-color: #c8c8c8;
+    }
+
+    /*заголовок*/
+    #title {
+        color: #464544;
+        font-size: 260%;
+        /*word-spacing: 9px;*/
+        text-align: center;
+    }
+
+    /*подзаголовок*/
+    #minititle {
+        font-size: 293%;
+        font-weight: lighter;
+        text-align: center;
+        position: relative; /* Относительное позиционирование */
+        top: -20px; /*  Положение от верхнего края */
+    }
+
+    /*место ввода параметров*/
+    input[type="text"] {
+        background: #C0C0C0;
+        border: 1px solid black;
+        color: black;
+    }
+
+    /*кнопка проверки*/
+    #buttonCheck {
+        font-size: 130%;
+        text-decoration: none;
+        padding: .3em 1em calc(.3em + 3px);
+        border-radius: 3px;
+        background: #464544;
+        box-shadow: 0 -3px black inset;
+        transition: 0.2s;
+    }
+
+    #buttonCheck:hover {
+        background: #01181D;
+    }
+    #sketch-holder{
+        outline: 2px solid #000;
+        position: absolute;
+    }
+    /*картинка*/
+    .card {
+        -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, .8),
+        inset 0 2px 0 rgba(255, 255, 255, .5),
+        inset 0 -1px 0 rgba(0, 0, 0, .4);
+        -moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, .8),
+        inset 0 2px 0 rgba(255, 255, 255, .5),
+        inset 0 -1px 0 rgba(0, 0, 0, .4);
+        box-shadow: inset 0 0 1px rgba(0, 0, 0, .8),
+        inset 0 2px 0 rgba(255, 255, 255, .5),
+        inset 0 -1px 0 rgba(0, 0, 0, .4);
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+    }
+
+    #img {
+        text-align: center;
+        width: 35%;
+    }
+
+    #imgPic {
+        margin-left: 83%; /* Отступ слева */
+        width: 40%;
+    }
+
+    #Line {
+        position: absolute;
+        left: 0;
+        bottom: -15px;
+    }
+
+    #imgLine {
+        width: 42%;
+    }
+
+    /*вид ссылок*/
+    a {
+        color: #FDF4E3; /* Цвет обычной ссылки */
+        text-decoration: none; /* Убираем подчеркивание у ссылок */
+    }
+
+    a:hover {
+        color: #F75E25; /* Цвет ссылки при наведении на нее курсора мыши */
+        text-decoration: underline; /* Добавляем подчеркивание */
+    }
+
+    /*позиционирование*/
+    #textImg {
+        font-size: 110%;
+        width: 1500px;
+        height: 75px;
+
+        position: relative;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        overflow: auto;
+    }
+
+    .step2 {
+        position: relative;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        overflow: auto;
+
+    }
+
+    table {
+        font-size: 14px;
+        border-collapse: collapse;
+        text-align: center;
+        background: white;
+        color: white;
+    }
+
+    th, td:first-child {
+        background: #464544;
+        color: white;
+        padding: 10px 20px;
+    }
+
+    th, td {
+        border-style: solid;
+        border-width: 0 1px 1px 0;
+        border-color: white;
+    }
+
+    td {
+        background: #464544;
+    }
+
+    th:first-child, td:first-child {
+        text-align: left;
+    }
+
+    #inputAnswer{
+        position: absolute;
+        left: 540px;
+        top: 220px;
+    }
+
+</style>
+</body>
+</html>

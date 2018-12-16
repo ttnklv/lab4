@@ -1,0 +1,390 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">\
+    <link href="css/styles.css" rel="stylesheet">
+
+    <!-- Include Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
+
+
+<div class="container-fluid">
+    <h3 class="display-3">This is an example Vue.js application developed with Spring Boot</h3>
+
+    <form id="app" @submit="checkForm" action="/greeting" method="post" novalidate="true">
+
+        <p v-if="errors.length">
+            <b>Please correct the following error(s):</b>
+        <ul>
+            <li v-for="error in errors">{{ error }}</li>
+        </ul>
+        </p>
+
+        <p>
+            <label for="login">Login<label>
+                <input type="text" name="login" id="login" v-model="login">
+        </p>
+
+        <p>
+            <label for="password">Password<label>
+                <input type="text" name="password" id="password" v-model="password">
+        </p>
+
+        <p>
+            <input type="submit" value="Submit">
+        </p>
+
+    </form>
+
+    <script>
+    const app = new Vue({
+    el: '#app',
+    data: {
+    errors: [],
+    login: null,
+    password: null
+    },
+    methods: {
+    checkForm: function (e) {
+    this.errors = [];
+
+    if (!this.login) {
+    this.errors.push('Укажите логин.');
+    }
+    if (!this.password) {
+    this.errors.push('Укажите пароль.');
+    }
+
+    if (!this.errors.length) {
+    return true;
+    }
+
+    e.preventDefault();
+    }
+    }
+    })</script>
+
+
+    <div id="contents-main">
+        <div class="lead">
+            <strong>Name of Event:</strong>
+            <span th:text="${eventName}"></span>
+        </div>
+        <div id="contents">
+            <!-- Since we create a Vue component pointing to id=contents,
+                 Vue will generate a unordered list of items such
+                 as this inside this div.
+                 v-for will cause a loop to run over all players
+                 as per the players array found in app.data
+            <ul>
+                <li></li>
+                <li></li>
+            </ul>
+            -->
+            <ul>
+                <li style="list-style-type:none" v-for="player in players">
+                    <player-card
+                            v-bind:player="player" v-bind:key="player.id">
+                    </player-card>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- include Vue.js -->
+<!-- we include babel js so that we can write ES6 code in the browser
+     for a more production like setup it is recommended to setup a build process
+     to transpile and minify the code (such as using webpack)
+ -->
+
+<script type="text/babel">
+    // player-card is now a Vue component that generates a 'card' showing a player
+    // It can be used
+    // declaratively like <player-card v-bind:player="someplayer">
+    Vue.component('player-card', {
+        props: ['player'],
+        template: `<div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            {{ player.name }}
+                        </h6>
+                        <p class="card-text">
+                            <div>
+                            {{ player.description }}
+                            </div>
+                        </p>
+                    </div>
+                </div>`
+    });
+    var app = new Vue({
+        el: '#contents',
+        data: {
+            players: [
+                {id: "1", name: "Lionel Messi", description: "Argentina's superstar"},
+                {id: "2", name: "Christiano Ronaldo", description: "Portugal top-ranked player"}
+            ]
+        }
+    });
+</script>
+
+<style>
+    .bright {
+        color: #F75E25;
+    }
+
+    .answer {
+        font-size: 300%;
+    }
+
+    .light {
+        color: black;
+    }
+
+    .allintroduction {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    /*подписи к местам ввода параметров и тд*/
+    .entry {
+    }
+
+    /*сообщение об ошибки*/
+    .error {
+        color: #F75E25;
+    }
+
+    /*картинка + ввод параметров и кнопка проверки*/
+    .step1 {
+        float: left;
+        margin-right: 35px; /*расстояния между блоками*/
+        margin-top: 1px;
+    }
+
+    /*вид кнопок выбора параметров*/
+    .checkbox,
+    .radio {
+        display: none;
+    }
+
+    .checkbox-custom,
+    .radio-custom {
+        width: 15px;
+        height: 15px;
+        border: 2px solid black;
+        border-radius: 3px;
+        position: relative;
+    }
+
+    .checkbox-custom,
+    .radio-custom,
+    .label {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .checkbox:checked + .checkbox-custom::before,
+    .radio:checked + .radio-custom::before {
+        content: "";
+        display: block;
+        position: absolute;
+        margin: 15%;
+        top: 2px;
+        right: 2px;
+        bottom: 2px;
+        left: 2px;
+        background: black;
+        border-radius: 2px;
+    }
+
+    .radio-custom,
+    .radio:checked + .radio-custom::before {
+        border-radius: 50%;
+    }
+
+    /*оформление шапки*/
+    div h1 {
+        width: 100%;
+        height: 60px;
+        font-size: 80%;
+        color: black;
+        text-align: right;
+    }
+
+    div h3 {
+        color: #FDF4E3;
+        font-size: 200%;
+    }
+
+    /*задний фон*/
+    body {
+        background-color: #c8c8c8;
+    }
+
+    /*заголовок*/
+    #title {
+        color: #464544;
+        font-size: 260%;
+        /*word-spacing: 9px;*/
+        text-align: center;
+    }
+
+    /*подзаголовок*/
+    #minititle {
+        font-size: 293%;
+        font-weight: lighter;
+        text-align: center;
+        position: relative; /* Относительное позиционирование */
+        top: -20px; /*  Положение от верхнего края */
+    }
+
+    /*место ввода параметров*/
+    input[type="text"] {
+        background: #C0C0C0;
+        border: 1px solid black;
+        color: black;
+    }
+
+    /*кнопка проверки*/
+    #buttonCheck {
+        font-size: 130%;
+        text-decoration: none;
+        padding: .3em 1em calc(.3em + 3px);
+        border-radius: 3px;
+        background: #464544;
+        box-shadow: 0 -3px black inset;
+        transition: 0.2s;
+    }
+
+    #buttonCheck:hover {
+        background: #01181D;
+    }
+    #sketch-holder{
+        outline: 2px solid #000;
+        position: absolute;
+    }
+    /*картинка*/
+    .card {
+        -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, .8),
+        inset 0 2px 0 rgba(255, 255, 255, .5),
+        inset 0 -1px 0 rgba(0, 0, 0, .4);
+        -moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, .8),
+        inset 0 2px 0 rgba(255, 255, 255, .5),
+        inset 0 -1px 0 rgba(0, 0, 0, .4);
+        box-shadow: inset 0 0 1px rgba(0, 0, 0, .8),
+        inset 0 2px 0 rgba(255, 255, 255, .5),
+        inset 0 -1px 0 rgba(0, 0, 0, .4);
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+    }
+
+    #img {
+        text-align: center;
+        width: 35%;
+    }
+
+    #imgPic {
+        margin-left: 83%; /* Отступ слева */
+        width: 40%;
+    }
+
+    #Line {
+        position: absolute;
+        left: 0;
+        bottom: -15px;
+    }
+
+    #imgLine {
+        width: 42%;
+    }
+
+    /*вид ссылок*/
+    a {
+        color: #FDF4E3; /* Цвет обычной ссылки */
+        text-decoration: none; /* Убираем подчеркивание у ссылок */
+    }
+
+    a:hover {
+        color: #F75E25; /* Цвет ссылки при наведении на нее курсора мыши */
+        text-decoration: underline; /* Добавляем подчеркивание */
+    }
+
+    /*позиционирование*/
+    #textImg {
+        font-size: 110%;
+        width: 1500px;
+        height: 75px;
+
+        position: relative;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        overflow: auto;
+    }
+
+    .step2 {
+        position: relative;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        overflow: auto;
+
+    }
+
+    table {
+        font-size: 14px;
+        border-collapse: collapse;
+        text-align: center;
+        background: white;
+        color: white;
+    }
+
+    th, td:first-child {
+        background: #464544;
+        color: white;
+        padding: 10px 20px;
+    }
+
+    th, td {
+        border-style: solid;
+        border-width: 0 1px 1px 0;
+        border-color: white;
+    }
+
+    td {
+        background: #464544;
+    }
+
+    th:first-child, td:first-child {
+        text-align: left;
+    }
+
+    #inputAnswer{
+        position: absolute;
+        left: 540px;
+        top: 220px;
+    }
+
+</style>
+</body>
+</html>

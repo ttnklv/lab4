@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>main</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
+
+    <!--????-->
+    <script src="https://unpkg.com/vue@2.5.13/dist/vue.js"></script>
+    <script src="scriptonit/validation.js"></script>
+    <script src="scriptonit/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<link href="css/styles.css" rel="stylesheet">
+<div id="header" class="head">
+    <h1>Dashkova Maria / Yakovleva Tatiana | P3211 | 86237 </h1>
+    <h2 id="title">Determine hit point on the coordinate plane</h2>
+</div>
+<!-- <style src="css/styles.css"></style> -->
+<div id="sketch-holder"></div>
+
+
+<form id="app" @submit="checkForm" @click action="/addResult" method="post" novalidate="true" v-on:submit="myMethodsChecker">
+
+    <p v-if="errors.length">
+        <b>Please correct the following error(s):</b>
+    <ul>
+        <li v-for="error in errors">{{ error }}</li>
+    </ul>
+    </p>
+
+    <!--<div id="X">-->
+        <!--<label for="X">Enter X: </label>-->
+
+            <b-button>Button 1</b-button>
+            <b-button>Button 2</b-button>
+            <b-button>Button 3</b-button>
+            <b-button>Button 4</b-button>
+            <b-button>Button 5</b-button>
+        
+            <!--<b-button-group>-->
+                <!--<b-button @click="return false" v-on:click="say('x1')" class="x1">-2</b-button>-->
+                <!--<b-button v-on:click="say('x2')" class="x2">-1.5</b-button>-->
+                <!--<b-button v-on:click="say('x3')" class="x3">-1</b-button>-->
+                <!--<b-button v-on:click="say('x4')" class="x4">-0.5</b-button>-->
+                <!--<b-button v-on:click="say('x5')" class="x5">0</b-button>-->
+                <!--<b-button v-on:click="say('x6')" class="x6">0.5</b-button>-->
+                <!--<b-button v-on:click="say('x7')" class="x7">1</b-button>-->
+                <!--<b-button v-on:click="say('x8')" class="x8">1.5</b-button>-->
+                <!--<b-button v-on:click="say('x9')" class="x9">2</b-button>-->
+            <!--</b-button-group>-->
+    </div>
+
+    <div>
+        <label for="y">Enter Y:</label>
+        <input type="text" name="y" id="y" v-model="y">
+    </div>
+
+    <div id="R">
+        <label for="R">Enter R: </label>
+
+        <button v-on:click="0.5">0.5</button>
+        <button v-on:click="1">1</button>
+        <button v-on:click="1.5">1.5</button>
+        <button v-on:click="2">2</button>
+    </div>
+
+
+    <p>
+        <input type="submit" value="Submit">
+    </p>
+
+</form>
+
+<script>
+
+
+    const app = new Vue({
+        el: '#app',
+        data: {
+            errors: [],
+            y: null
+        },
+        methods: {
+            checkForm: function (e) {
+
+                this.errors = [];
+
+                if (!this.y ) {
+                    this.errors.push('Enter y.');
+                }
+
+                if (this.y>5 || this.y < -5 ) {
+                    this.errors.push('Error y.');
+                }
+
+                if (!this.errors.length) {
+                    return true;
+                }
+                e.preventDefault();
+            }
+        }
+    });
+
+    new Vue({
+        el: '#X',
+        methods: {
+            say: function (message) {
+                let r1 = $(".x1");
+                let r2 = $(".x2");
+                let r3 = $(".x3");
+                let r4 = $(".x4");
+                let r5 = $(".x5");
+                let r6 = $(".x6");
+                let r7 = $(".x7");
+                let r8 = $(".x8");
+                let r9 = $(".x9");
+                let r10 = $(message);
+                r1.css({background: "white"});
+                r2.css({background: "white"});
+                r3.css({background: "white"});
+                r4.css({background: "white"});
+                r5.css({background: "white"});
+                r6.css({background: "white"});
+                r7.css({background: "white"});
+                r8.css({background: "white"});
+                r9.css({background: "white"});
+                r10.css({background: "#464544"});
+                e.preventDefault();
+                return false;
+            }
+        }
+    });
+</script>
+<style>
+    .bright {
+        color: #F75E25;
+    }
+
+    .answer {
+        font-size: 300%;
+    }
+
+    .light {
+        color: black;
+    }
+
+    .allintroduction {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    /*подписи к местам ввода параметров и тд*/
+    .entry {
+    }
+
+    /*сообщение об ошибки*/
+    .error {
+        color: #F75E25;
+    }
+
+    /*картинка + ввод параметров и кнопка проверки*/
+    .step1 {
+        float: left;
+        margin-right: 35px; /*расстояния между блоками*/
+        margin-top: 1px;
+    }
+
+    /*вид кнопок выбора параметров*/
+    .checkbox,
+    .radio {
+        display: none;
+    }
+
+    .checkbox-custom,
+    .radio-custom {
+        width: 15px;
+        height: 15px;
+        border: 2px solid black;
+        border-radius: 3px;
+        position: relative;
+    }
+
+    .checkbox-custom,
+    .radio-custom,
+    .label {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .checkbox:checked + .checkbox-custom::before,
+    .radio:checked + .radio-custom::before {
+        content: "";
+        display: block;
+        position: absolute;
+        margin: 15%;
+        top: 2px;
+        right: 2px;
+        bottom: 2px;
+        left: 2px;
+        background: black;
+        border-radius: 2px;
+    }
+
+    .radio-custom,
+    .radio:checked + .radio-custom::before {
+        border-radius: 50%;
+    }
+
+    /*оформление шапки*/
+    div h1 {
+        width: 100%;
+        height: 60px;
+        font-size: 80%;
+        color: black;
+        text-align: right;
+    }
+
+    div h3 {
+        color: #FDF4E3;
+        font-size: 200%;
+    }
+
+    /*задний фон*/
+    body {
+        background-color: #c8c8c8;
+    }
+
+    /*заголовок*/
+    #title {
+        color: #464544;
+        font-size: 260%;
+        /*word-spacing: 9px;*/
+        text-align: center;
+    }
+
+    /*подзаголовок*/
+    #minititle {
+        font-size: 293%;
+        font-weight: lighter;
+        text-align: center;
+        position: relative; /* Относительное позиционирование */
+        top: -20px; /*  Положение от верхнего края */
+    }
+
+    /*место ввода параметров*/
+    input[type="text"] {
+        background: #C0C0C0;
+        border: 1px solid black;
+        color: black;
+    }
+
+    /*кнопка проверки*/
+    #buttonCheck {
+        font-size: 130%;
+        text-decoration: none;
+        padding: .3em 1em calc(.3em + 3px);
+        border-radius: 3px;
+        background: #464544;
+        box-shadow: 0 -3px black inset;
+        transition: 0.2s;
+    }
+
+    #buttonCheck:hover {
+        background: #01181D;
+    }
+
+    #sketch-holder {
+        outline: 2px solid #000;
+        position: absolute;
+    }
+
+    /*картинка*/
+    .card {
+        -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, .8),
+        inset 0 2px 0 rgba(255, 255, 255, .5),
+        inset 0 -1px 0 rgba(0, 0, 0, .4);
+        -moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, .8),
+        inset 0 2px 0 rgba(255, 255, 255, .5),
+        inset 0 -1px 0 rgba(0, 0, 0, .4);
+        box-shadow: inset 0 0 1px rgba(0, 0, 0, .8),
+        inset 0 2px 0 rgba(255, 255, 255, .5),
+        inset 0 -1px 0 rgba(0, 0, 0, .4);
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+    }
+
+    #img {
+        text-align: center;
+        width: 35%;
+    }
+
+    #imgPic {
+        margin-left: 83%; /* Отступ слева */
+        width: 40%;
+    }
+
+    #Line {
+        position: absolute;
+        left: 0;
+        bottom: -15px;
+    }
+
+    #imgLine {
+        width: 42%;
+    }
+
+    /*вид ссылок*/
+    a {
+        color: #FDF4E3; /* Цвет обычной ссылки */
+        text-decoration: none; /* Убираем подчеркивание у ссылок */
+    }
+
+    a:hover {
+        color: #F75E25; /* Цвет ссылки при наведении на нее курсора мыши */
+        text-decoration: underline; /* Добавляем подчеркивание */
+    }
+
+    /*позиционирование*/
+    #textImg {
+        font-size: 110%;
+        width: 1500px;
+        height: 75px;
+
+        position: relative;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        overflow: auto;
+    }
+
+    .step2 {
+        position: relative;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        overflow: auto;
+
+    }
+
+    table {
+        font-size: 14px;
+        border-collapse: collapse;
+        text-align: center;
+        background: white;
+        color: white;
+    }
+
+    th, td:first-child {
+        background: #464544;
+        color: white;
+        padding: 10px 20px;
+    }
+
+    th, td {
+        border-style: solid;
+        border-width: 0 1px 1px 0;
+        border-color: white;
+    }
+
+    td {
+        background: #464544;
+    }
+
+    th:first-child, td:first-child {
+        text-align: left;
+    }
+
+    #inputAnswer {
+        position: absolute;
+        left: 540px;
+        top: 220px;
+    }
+
+</style>
+
+
+</body>
+</html>
